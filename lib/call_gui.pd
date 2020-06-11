@@ -1,0 +1,12 @@
+#N canvas 0 22 450 300 12;
+#X symbolatom 204 105 13 0 0 0 call-name-#1 call-name-#1-set call-name-#1
+;
+#X obj 183 129 tgl 15 0 status-\$1 status-\$1-set status 17 7 0 12
+-204800 -1 -1 0 1;
+#X obj 103 129 tgl 15 0 call-\$1-onoff call-\$1-onoff-set onoff 17
+7 0 12 -204786 -1 -1 0 1;
+#X obj 266 129 nbx 2 15 0 99 0 0 call-\$1-fifo call-\$1-fifo-set fifo
+-22 6 0 12 -262144 -1 -1 20 256;
+#X obj 104 108 tgl 15 0 quack-start-\$1 quack-start-\$1-set empty 17
+7 0 10 -262130 -1 -1 1 1;
+#X coords 0 -1 1 1 202 48 2 100 100;

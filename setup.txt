@@ -1,0 +1,10 @@
+call-name-1-set symbol firstcall;
+call-name-2-set symbol secondcall;
+call-name-3-set symbol thirdcall;
+call-1-fifo-set 20;
+call-2-fifo-set 20;
+call-3-fifo-set 20;
+insig 1 2 1 2 1 2;
+outsig 1 2 1 2 1 2;
+server-set symbol foo.ucsd.edu;
+gui-set 0;
