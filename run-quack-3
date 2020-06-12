@@ -1,8 +1,17 @@
 #!/bin/sh
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
-patch=$DIR/quack3.pd
-pd51="http://msp.ucsd.edu/Software/pd-0.51-0.mac.tar.gz"
-localpd="$DIR/Pd-0.51-0.app/Contents/Resources/bin/pd"
+#
+# This script will work on macos and linux
+# 
+
+pdversion=0.51-0
+patchname=quack3.pd
+
+
+dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+patch=${dir}/${patchname}
+pd51="http://msp.ucsd.edu/Software/pd-${pdversion}.mac.tar.gz"
+apppd="~/Applications/Pd-${pdversion}.app/Contents/Resources/bin/pd"
+localpd="${dir}/Pd-${pdversion}.app/Contents/Resources/bin/pd"
 
 function check_version {
 	local pd=$1
@@ -19,24 +28,31 @@ function check_version {
 if [[ ! $(check_version "pd") ]]
 then
 	echo "Pd is not installed in your system."
-	echo "Checking if you have a local copy on this directory..."
-	if [[ ! $(check_version "$localpd") ]]
+	echo "Checking if you have it on the Applications directory..."
+	if [[ ! $(check_version "$apppd") ]]
 	then
-		echo "Pd is not in your local dir."
-		echo "Downloading pd..."
-		curl $pd51 -o pd-0.51-0.mac.tar.gz
-		tar xzf pd-0.51-0.mac.tar.gz
-		if [[ ! $(check_version $localpd) ]]
+		echo "Pd is not in your Applications directory."
+		echo "Checking if you have a local copy on this directory..."
+		if [[ ! $(check_version "$localpd") ]]
 		then
-			echo "There was a problem downloading pd."
-			echo "Please, go to msp.ucsd.edu, download it and place it here."
-			echo "Exitting."
-			exit 1
+			echo "Pd is not in your local dir."
+			echo "Downloading pd..."
+			curl $pd51 -o pd-0.51-0.mac.tar.gz
+			tar xzf pd-0.51-0.mac.tar.gz
+			if [[ ! $(check_version $localpd) ]]
+			then
+				echo "There was a problem downloading pd."
+				echo "Please, go to msp.ucsd.edu, get Pd and place it here."
+				echo "Exiting."
+				exit 1
+			else
+				pd=$localpd
+			fi
 		else
 			pd=$localpd
 		fi
 	else
-		pd=$localpd
+		pd=$apppd
 	fi
 else
 	pd=$(which pd)
