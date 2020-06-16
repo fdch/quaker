@@ -4,14 +4,15 @@
 # 
 
 pdversion=0.51-0
-patchname=quack3.pd
+patchname=quack.pd
 
 
-dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+dir=$(dirname ${BASH_SOURCE[0]})
 patch=${dir}/${patchname}
 pd51="http://msp.ucsd.edu/Software/pd-${pdversion}.mac.tar.gz"
 apppd="~/Applications/Pd-${pdversion}.app/Contents/Resources/bin/pd"
 localpd="${dir}/Pd-${pdversion}.app/Contents/Resources/bin/pd"
+
 
 function check_version {
 	local pd=$1
@@ -60,4 +61,4 @@ fi
 
 echo "Running pd from: $pd"
 
-$pd -stderr -nogui $@ -send ";quack-start-set 1; onoff-set 1" -open $patch
+$pd -stderr -nogui $@ -send ";quack-start bang" -open $patch
