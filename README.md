@@ -5,6 +5,7 @@
 ## Usage:
 
 [quacker] is meant for audio communication only between computers behind home routers. Audio is routed in/out from outisde Pure Data using Jack, JackPilot, Blackhole, or similar. Pd takes care of the communication between computers, and your audio can be generated/listened in any other application (Pd, Max, daws, etc). 
+
 First thing to do is edit the `setup.txt` text with the previously agreed upon *call-name* and *server*. Eg: 
 
 ```
