@@ -4,7 +4,7 @@
 # 
 
 pdversion=0.51-0
-patchname=quack.pd
+patchname=quaker.pd
 
 
 dir=$(dirname ${BASH_SOURCE[0]})

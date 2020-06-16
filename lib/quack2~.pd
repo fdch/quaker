@@ -1,0 +1,14 @@
+#N canvas 72 202 432 453 12;
+#X obj 27 77 quack-panel 1;
+#X obj 29 22 adc~ 1;
+#X obj 320 29 adc~ 2;
+#X obj 28 383 dac~ 1;
+#X obj 172 381 dac~ 2;
+#X obj 340 388 stdout;
+#X obj 340 314 loadbang;
+#X connect 0 0 3 0;
+#X connect 0 1 4 0;
+#X connect 0 2 5 0;
+#X connect 1 0 0 0;
+#X connect 2 0 0 1;
+#X connect 6 0 5 0;

@@ -1,33 +1,26 @@
-#N canvas 521 46 740 404 12;
-#X obj 344 24 inlet;
-#X obj 110 196 hradio 15 1 0 3 nchan-\$1 nchan-\$1-set nchan_0|1|2
+#N canvas 521 46 495 330 12;
+#X obj 32 15 inlet;
+#X obj 46 156 hradio 15 1 0 3 nchan-\$1 nchan-\$1-set nchan_0|1|2 0
+-8 0 10 -262144 -1 -1 0;
+#X obj 133 156 hradio 15 1 0 3 block-\$1 block-\$1-set block_64|128|256
 0 -8 0 10 -262144 -1 -1 0;
-#X obj 185 196 hradio 15 1 0 3 block-\$1 block-\$1-set block_64|128|256
-0 -8 0 10 -262144 -1 -1 0;
-#X obj 265 195 tgl 15 0 2x-\$1 2x-\$1-set 2x 17 7 0 10 -262144 -1 -1
+#X obj 99 156 tgl 15 0 2x-\$1 2x-\$1-set 2x 17 7 0 10 -262144 -1 -1
 0 1;
-#X symbolatom 204 105 13 0 0 0 call-name-#1 call-name-#1-set call-name-#1
+#X symbolatom 130 68 16 0 0 0 call-name-#1 call-name-#1-set call-name-#1
 ;
-#X obj 241 129 tgl 15 0 status-\$1 status-\$1-set status 17 7 0 12
--204800 -1 -1 0 1;
-#X obj 105 129 tgl 15 0 onoff-\$1 onoff-\$1-set onoff 17 7 0 12 -204786
+#X obj 162 94 tgl 15 0 status-\$1 status-\$1-set status 17 7 0 10 -232576
 -1 -1 0 1;
-#X obj 203 129 nbx 2 15 0 99 0 0 fifo-\$1 fifo-\$1-set fifo -22 6 0
-12 -262144 -1 -1 0 256;
-#X obj 105 108 tgl 15 0 quack-start-\$1 quack-start-\$1-set empty 17
-7 0 10 -262130 -1 -1 0 1;
-#X symbolatom 168 162 18 0 0 0 server-#1 server-#1-set server-#1;
-#X obj 156 129 tgl 20 0 dsp-\$1 dsp-\$1-set dsp 2 10 0 10 -262144 -1
+#X obj 46 107 tgl 15 0 onoff-\$1 onoff-\$1-set onoff 17 7 0 10 -204786
+-1 -1 0 1;
+#X obj 132 122 nbx 2 15 0 99 0 0 fifo-\$1 fifo-\$1-set fifo 0 -7 0
+10 -262144 -1 -1 20 256;
+#X obj 46 89 tgl 15 0 quack-start-\$1 quack-start-\$1-set quack-start-\$1
+17 7 0 10 -262130 -1 -1 0 1;
+#X symbolatom 130 46 16 0 0 0 server-#1 server-#1-set server-#1;
+#X obj 45 46 tgl 21 0 dsp-\$1 dsp-\$1-set dsp 2 10 0 10 -262144 -1
 -1 0 1;
-#X obj 105 148 tgl 15 0 gui-\$1 gui-\$1-set gui 17 7 0 10 -262144 -1
+#X obj 46 126 tgl 15 0 gui-\$1 gui-\$1-set gui 17 7 0 10 -204800 -1
 -1 0 1;
-#X obj 344 273 route float;
-#X obj 344 188 pd~ -ninsig 2 -noutsig 2 -fifo 5;
-#X obj 344 337 s status-\$1-set;
-#X obj 357 131 r insig-\$1-1;
-#X obj 565 131 r insig-\$1-2;
-#X obj 466 214 r outsig-\$1-1;
-#X obj 583 214 r outsig-\$1-2;
 #N canvas 376 76 668 425 to_gui 0;
 #X obj 21 17 inlet;
 #X obj 87 374 outlet;
@@ -47,7 +40,8 @@
 #X msg 277 145 \; \$1-1 set \$2 \; \$1-2 set \$3 \;;
 #X obj 292 103 list prepend outsig-\$1;
 #X obj 400 166 list prepend NOT_PARSED;
-#X obj 400 287 print quack-sub-\$1;
+#X obj 400 287 print [quacker \$1];
+#X obj 400 196 list trim;
 #X connect 0 0 3 0;
 #X connect 3 0 4 0;
 #X connect 4 0 5 0;
@@ -64,9 +58,10 @@
 #X connect 13 2 17 0;
 #X connect 14 0 15 0;
 #X connect 16 0 15 0;
-#X connect 17 0 18 0;
-#X restore 344 49 pd to_gui;
-#N canvas 56 189 1084 544 from_gui 0;
+#X connect 17 0 19 0;
+#X connect 19 0 18 0;
+#X restore 32 183 pd to_gui ____________________;
+#N canvas 71 106 1171 575 from_gui 0;
 #X obj 23 322 list trim;
 #X msg 23 94 server \$1;
 #X msg 109 94 call-name \$1;
@@ -79,11 +74,10 @@
 #X obj 498 414 outlet;
 #X obj 633 65 r quack-start-\$1;
 #X msg 548 321 pd~ stop;
-#X obj 795 175 f;
-#X obj 795 209 sel 0 1;
-#X msg 818 274 pd~ start quack2~.pd;
-#X msg 795 246 pd~ start -nogui -stderr quack2~.pd;
-#X obj 656 154 t b b;
+#X obj 656 180 f;
+#X obj 656 214 sel 0 1;
+#X msg 679 279 pd~ start quack2~.pd;
+#X msg 656 251 pd~ start -nogui -stderr quack2~.pd;
 #X obj 218 65 r fifo-\$1;
 #X obj 290 65 r onoff-\$1;
 #X obj 498 65 r dsp-\$1;
@@ -95,40 +89,26 @@
 #X msg 371 153 2x \$1;
 #X obj 371 189 r block-\$1;
 #X msg 371 215 block \$1;
-#X obj 656 187 del 1000;
-#N canvas 0 22 450 300 update-gui 0;
-#X obj 54 165 s dsp-\$1-set;
-#X obj 22 213 s onoff-\$1-set;
-#X msg 22 105 1;
-#X obj 22 68 t b b;
-#X obj 22 131 t f f;
-#X msg 157 108 server \, call-name \, fifo \, block \, nchan;
-#X obj 157 134 symbol;
-#X obj 157 160 pack s \$1;
-#X msg 157 186 symbol \$1-\$2-set;
-#X obj 157 212 t b a;
-#X obj 157 238 s;
-#X obj 22 37 inlet;
-#X connect 2 0 4 0;
-#X connect 3 0 2 0;
-#X connect 3 1 5 0;
-#X connect 4 0 1 0;
-#X connect 4 1 0 0;
-#X connect 5 0 6 0;
-#X connect 6 0 7 0;
-#X connect 7 0 8 0;
-#X connect 8 0 9 0;
-#X connect 9 0 10 0;
-#X connect 9 1 10 1;
-#X connect 11 0 3 0;
-#X restore 656 216 pd update-gui;
 #X obj 633 103 sel 0 1;
-#X obj 813 147 r gui-\$1;
+#X obj 674 152 r gui-\$1;
 #X obj 678 470 s dsp-\$1-set;
 #X obj 710 427 s onoff-\$1-set;
 #X obj 678 397 t f f;
 #X msg 678 371 0;
 #X obj 548 279 t b b;
+#X obj 855 310 r loaded-\$1;
+#X obj 855 430 s dsp-\$1-set;
+#X msg 855 376 1;
+#X obj 855 339 t b b;
+#X msg 990 359 server \, call-name \, fifo \, block \, nchan, f 18
+;
+#X obj 990 405 symbol;
+#X obj 990 431 pack s \$1;
+#X msg 990 457 symbol \$1-\$2-set;
+#X obj 990 483 t b a;
+#X obj 990 509 s;
+#X obj 955 250 bng 15 250 50 0 loaded-\$1 loaded-\$1-set loaded-\$1
+17 7 0 10 -262144 -1 -1;
 #X connect 0 0 9 0;
 #X connect 1 0 6 0;
 #X connect 2 0 6 0;
@@ -138,51 +118,89 @@
 #X connect 6 0 0 0;
 #X connect 7 0 9 0;
 #X connect 8 0 1 0;
-#X connect 10 0 30 0;
+#X connect 10 0 27 0;
 #X connect 11 0 9 0;
 #X connect 12 0 13 0;
 #X connect 13 0 15 0;
 #X connect 13 1 14 0;
 #X connect 14 0 9 0;
 #X connect 15 0 9 0;
-#X connect 16 0 28 0;
-#X connect 16 1 12 0;
-#X connect 17 0 4 0;
-#X connect 18 0 3 0;
-#X connect 19 0 7 0;
-#X connect 22 0 23 0;
-#X connect 23 0 6 0;
-#X connect 24 0 25 0;
-#X connect 25 0 6 0;
-#X connect 26 0 27 0;
-#X connect 27 0 6 0;
-#X connect 28 0 29 0;
-#X connect 30 0 36 0;
-#X connect 30 1 16 0;
-#X connect 31 0 12 1;
-#X connect 34 0 32 0;
-#X connect 34 1 33 0;
-#X connect 35 0 34 0;
-#X connect 36 0 11 0;
-#X connect 36 1 35 0;
-#X restore 344 77 pd from_gui;
-#X obj 418 300 print quack-sub-\$1;
-#X obj 357 157 adc~ 1;
-#X obj 565 157 adc~ 2;
-#X obj 454 244 dac~ 1;
-#X obj 565 244 dac~ 2;
-#X connect 0 0 19 0;
-#X connect 12 0 14 0;
-#X connect 12 1 21 0;
-#X connect 13 0 12 0;
-#X connect 13 1 24 0;
-#X connect 13 2 25 0;
-#X connect 15 0 22 0;
-#X connect 16 0 23 0;
-#X connect 17 0 24 0;
-#X connect 18 0 25 0;
-#X connect 19 0 20 0;
-#X connect 20 0 13 0;
-#X connect 22 0 13 0;
-#X connect 23 0 13 1;
-#X coords 0 -1 1 1 202 115 2 100 100;
+#X connect 16 0 4 0;
+#X connect 17 0 3 0;
+#X connect 18 0 7 0;
+#X connect 21 0 22 0;
+#X connect 22 0 6 0;
+#X connect 23 0 24 0;
+#X connect 24 0 6 0;
+#X connect 25 0 26 0;
+#X connect 26 0 6 0;
+#X connect 27 0 33 0;
+#X connect 27 1 12 0;
+#X connect 28 0 12 1;
+#X connect 31 0 29 0;
+#X connect 31 1 30 0;
+#X connect 32 0 31 0;
+#X connect 33 0 11 0;
+#X connect 33 1 32 0;
+#X connect 34 0 37 0;
+#X connect 36 0 35 0;
+#X connect 37 0 36 0;
+#X connect 37 1 38 0;
+#X connect 38 0 39 0;
+#X connect 39 0 40 0;
+#X connect 40 0 41 0;
+#X connect 41 0 42 0;
+#X connect 42 0 43 0;
+#X connect 42 1 43 1;
+#X restore 32 208 pd from_gui __________________;
+#N canvas 0 22 450 300 subprocess 0;
+#X obj 35 127 pd~ -ninsig 2 -noutsig 2 -fifo 5;
+#X obj 45 70 r insig-\$1-1;
+#X obj 256 70 r insig-\$1-2;
+#X obj 157 203 r outsig-\$1-1;
+#X obj 274 203 r outsig-\$1-2;
+#X obj 45 96 adc~ 1;
+#X obj 256 96 adc~ 2;
+#X obj 145 233 dac~ 1;
+#X obj 256 233 dac~ 2;
+#X obj 35 20 inlet;
+#X obj 35 232 outlet;
+#X connect 0 0 10 0;
+#X connect 0 1 7 0;
+#X connect 0 2 8 0;
+#X connect 1 0 5 0;
+#X connect 2 0 6 0;
+#X connect 3 0 7 0;
+#X connect 4 0 8 0;
+#X connect 5 0 0 0;
+#X connect 6 0 0 1;
+#X connect 9 0 0 0;
+#X restore 32 233 pd subprocess ________________;
+#N canvas 0 22 450 300 status 0;
+#X obj 54 125 s status-\$1-set;
+#X obj 54 43 route float bang;
+#X obj 108 97 s loaded-\$1-set;
+#X obj 54 84 t f f;
+#X msg 85 178 status \$1;
+#X msg 226 90 loaded;
+#X obj 108 70 t b b;
+#X obj 54 14 inlet;
+#X obj 230 233 outlet;
+#X connect 1 0 3 0;
+#X connect 1 1 6 0;
+#X connect 1 2 8 0;
+#X connect 3 0 0 0;
+#X connect 3 1 4 0;
+#X connect 4 0 8 0;
+#X connect 5 0 8 0;
+#X connect 6 0 2 0;
+#X connect 6 1 5 0;
+#X connect 7 0 1 0;
+#X restore 32 258 pd status ____________________;
+#X obj 32 283 print [quacker \$1];
+#X connect 0 0 12 0;
+#X connect 12 0 13 0;
+#X connect 13 0 14 0;
+#X connect 14 0 15 0;
+#X connect 15 0 16 0;
+#X coords 0 -1 1 1 208 136 2 40 40;
