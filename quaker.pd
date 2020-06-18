@@ -1,9 +1,9 @@
 #N canvas 527 50 447 296 12;
 #X declare -path lib;
 #X obj 43 87 tgl 30 0 start start-set start 0 -8 0 12 -262130 -1 -1
-1 1;
+0 1;
 #X obj 79 87 tgl 30 0 onoff onoff-set onoff 0 -8 0 12 -204786 -1 -1
-1 1;
+0 1;
 #X obj 115 87 tgl 30 0 gui gui-set gui 0 -8 0 12 -204800 -1 -1 0 1
 ;
 #X obj 187 87 bng 14 250 50 0 open open-set open 16 6 0 12 -261682
@@ -16,10 +16,10 @@
 #N canvas 112 105 558 362 globals 0;
 #X text 20 20 global symbols on main gui;
 #X obj 228 201 r quack-start;
-#X obj 228 227 t b b;
-#X msg 335 248 \; start-set 1;
-#X obj 228 253 del 2000;
-#X msg 228 279 \; onoff-set 1 \;;
+#X obj 228 247 t b b;
+#X msg 335 268 \; start-set 1;
+#X obj 228 273 del 2000;
+#X msg 228 299 \; onoff-set 1 \;;
 #X obj 229 53 r reload;
 #X obj 21 174 r write;
 #X obj 21 254 r open;
@@ -151,7 +151,8 @@
 #X restore 18 106 pd controls;
 #X msg 229 117 \; pd dsp 1 \; start-set set 0 \; setup read ./setup.txt
 \, send setup-ptr \;;
-#X connect 1 0 2 0;
+#X obj 228 224 del 2000;
+#X connect 1 0 17 0;
 #X connect 2 0 4 0;
 #X connect 2 1 3 0;
 #X connect 4 0 5 0;
@@ -159,6 +160,7 @@
 #X connect 7 0 10 0;
 #X connect 8 0 9 0;
 #X connect 11 0 16 0;
+#X connect 17 0 2 0;
 #X restore 41 132 pd globals;
 #N canvas 566 72 449 299 setup 0;
 #X obj 268 21 text define setup;
@@ -205,7 +207,7 @@ vis 1 1 \;;
 #X restore 41 216 pd test;
 #N canvas 731 129 450 300 quacker 0;
 #X obj 10 10 r quacker;
-#X obj 10 40 quacker 1;
+#X obj 10 40 clone -s 1 quacker 2;
 #X connect 0 0 1 0;
 #X restore 41 244 pd quacker;
 #N canvas 717 220 474 365 make 0;
@@ -239,8 +241,9 @@ vis 1 1 \;;
 #X connect 11 1 6 0;
 #X connect 13 0 10 0;
 #X restore 41 188 pd make;
-#X obj 45 55 hradio 15 1 0 8 make make-set make-1 0 -8 0 10 -262144
--1 -1 0;
+#X obj 45 55 hradio 15 1 0 8 make make-set make-2 0 -8 0 10 -262144
+-1 -1 1;
 #X obj 171 55 bng 15 250 50 0 controls controls-set controls 17 7 0
 10 -204800 -1 -1;
+#X msg 178 178 \; quack-start bang;
 #X coords 0 -1 1 1 200 80 2 40 40;
