@@ -8,12 +8,12 @@
 0 1;
 #X symbolatom 130 68 16 0 0 0 call-name-#1 call-name-#1-set call-name-#1
 ;
-#X obj 162 94 tgl 15 0 status-\$1 status-\$1-set status 17 7 0 10 -232576
--1 -1 0 1;
+#X obj 193 156 tgl 15 0 status-\$1 status-\$1-set status 17 7 0 10
+-232576 -1 -1 0 1;
 #X obj 46 107 tgl 15 0 onoff-\$1 onoff-\$1-set onoff 17 7 0 10 -204786
 -1 -1 0 1;
-#X obj 132 122 nbx 2 15 0 99 0 0 fifo-\$1 fifo-\$1-set fifo 0 -7 0
-10 -262144 -1 -1 20 256;
+#X obj 99 121 nbx 2 15 0 99 0 0 fifo-\$1 fifo-\$1-set fifo 0 -7 0 10
+-262144 -1 -1 20 256;
 #X obj 46 89 tgl 15 0 quack-start-\$1 quack-start-\$1-set quack-start-\$1
 17 7 0 10 -262130 -1 -1 0 1;
 #X symbolatom 130 46 16 0 0 0 server-#1 server-#1-set server-#1;
@@ -36,12 +36,12 @@
 #X obj 21 260 _route quack-start \$1;
 #X obj 21 290 _route gui \$1;
 #X obj 277 45 route insig outsig;
-#X obj 277 71 list prepend insig-\$1;
-#X msg 277 145 \; \$1-1 set \$2 \; \$1-2 set \$3 \;;
-#X obj 292 103 list prepend outsig-\$1;
-#X obj 400 166 list prepend NOT_PARSED;
+#X obj 400 216 list prepend NOT_PARSED;
 #X obj 400 287 print [quacker \$1];
-#X obj 400 196 list trim;
+#X obj 400 246 list trim;
+#X obj 277 71 list prepend insig-\$1 q-adc;
+#X obj 293 103 list prepend outsig-\$1 q-dac;
+#X msg 277 145 \; \$1-1 set \$2-\$3 \; \$1-2 set \$2-\$4 \;;
 #X connect 0 0 3 0;
 #X connect 3 0 4 0;
 #X connect 4 0 5 0;
@@ -53,13 +53,13 @@
 #X connect 10 0 11 0;
 #X connect 11 0 12 0;
 #X connect 12 0 13 0;
-#X connect 13 0 14 0;
-#X connect 13 1 16 0;
-#X connect 13 2 17 0;
-#X connect 14 0 15 0;
+#X connect 13 0 17 0;
+#X connect 13 1 18 0;
+#X connect 13 2 14 0;
+#X connect 14 0 16 0;
 #X connect 16 0 15 0;
 #X connect 17 0 19 0;
-#X connect 19 0 18 0;
+#X connect 18 0 19 0;
 #X restore 32 183 pd to_gui ____________________;
 #N canvas 71 106 1171 575 from_gui 0;
 #X obj 23 322 list trim;
@@ -153,28 +153,44 @@
 #X connect 42 0 43 0;
 #X connect 42 1 43 1;
 #X restore 32 208 pd from_gui __________________;
-#N canvas 0 22 450 300 subprocess 1;
-#X obj 35 127 pd~ -ninsig 2 -noutsig 2 -fifo 5;
+#N canvas 263 79 429 357 subprocess 0;
+#X obj 35 187 pd~ -ninsig 2 -noutsig 2 -fifo 5;
 #X obj 45 70 r insig-\$1-1;
 #X obj 256 70 r insig-\$1-2;
-#X obj 157 203 r outsig-\$1-1;
-#X obj 274 203 r outsig-\$1-2;
+#X obj 157 263 r outsig-\$1-1;
+#X obj 274 263 r outsig-\$1-2;
 #X obj 35 20 inlet;
-#X obj 35 232 outlet;
+#X obj 35 292 outlet;
+#X obj 145 293 throw~;
+#X obj 256 293 throw~;
+#X obj 151 212 env~ 4096;
+#X obj 261 212 env~ 4096;
+#X obj 261 238 s \$0-env-2;
+#X obj 151 238 s \$0-env-1;
+#X obj 51 122 env~ 4096;
+#X obj 262 122 env~ 4096;
+#X obj 51 148 s \$0-inv-1;
+#X obj 262 148 s \$0-inv-2;
 #X obj 45 96 receive~ q-adc-1;
 #X obj 256 96 receive~ q-adc-2;
-#X obj 145 233 throw~ q-dac-1;
-#X obj 256 233 throw~ q-dac-2;
 #X connect 0 0 6 0;
+#X connect 0 1 7 0;
 #X connect 0 1 9 0;
+#X connect 0 2 8 0;
 #X connect 0 2 10 0;
-#X connect 1 0 7 0;
-#X connect 2 0 8 0;
-#X connect 3 0 9 0;
-#X connect 4 0 10 0;
+#X connect 1 0 17 0;
+#X connect 2 0 18 0;
+#X connect 3 0 7 0;
+#X connect 4 0 8 0;
 #X connect 5 0 0 0;
-#X connect 7 0 0 0;
-#X connect 8 0 0 1;
+#X connect 9 0 12 0;
+#X connect 10 0 11 0;
+#X connect 13 0 15 0;
+#X connect 14 0 16 0;
+#X connect 17 0 0 0;
+#X connect 17 0 13 0;
+#X connect 18 0 0 1;
+#X connect 18 0 14 0;
 #X restore 32 233 pd subprocess ________________;
 #N canvas 0 22 450 300 status 0;
 #X obj 54 125 s status-\$1-set;
@@ -198,6 +214,16 @@
 #X connect 7 0 1 0;
 #X restore 32 258 pd status ____________________;
 #X obj 32 283 print [quacker \$1];
+#X obj 169 121 nbx 3 14 0 100 0 0 empty \$0-env-1 empty 0 -8 0 10 -262144
+-1 -1 0 256;
+#X obj 209 121 nbx 3 14 0 100 0 0 empty \$0-env-2 empty 0 -8 0 10 -262144
+-1 -1 0 256;
+#X obj 169 101 nbx 3 14 0 100 0 0 empty \$0-inv-1 empty 0 -8 0 10 -262144
+-1 -1 58.9126 256;
+#X obj 209 101 nbx 3 14 0 100 0 0 empty \$0-inv-2 empty 0 -8 0 10 -262144
+-1 -1 58.9134 256;
+#X text 135 97 in;
+#X text 133 115 out;
 #X connect 0 0 12 0;
 #X connect 12 0 13 0;
 #X connect 13 0 14 0;

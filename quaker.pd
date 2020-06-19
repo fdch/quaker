@@ -1,5 +1,5 @@
-#N canvas 527 50 447 296 12;
-#X declare -path lib;
+#N canvas 527 50 466 304 12;
+#X declare -path lib -path _lib;
 #X obj 43 87 tgl 30 0 start start-set start 0 -8 0 12 -262130 -1 -1
 0 1;
 #X obj 79 87 tgl 30 0 onoff onoff-set onoff 0 -8 0 12 -204786 -1 -1
@@ -12,7 +12,6 @@
 -1 -1;
 #X obj 151 87 bng 30 250 50 0 reload reload-set reload 0 -8 0 12 -232576
 -1 -1;
-#X obj 39 9 declare -path lib;
 #N canvas 112 105 558 362 globals 0;
 #X text 20 20 global symbols on main gui;
 #X obj 228 201 r quack-start;
@@ -207,57 +206,85 @@ vis 1 1 \;;
 #X restore 41 216 pd test;
 #N canvas 731 129 450 300 quacker 0;
 #X obj 10 10 r quacker;
-#X obj 10 40 clone -s 1 quacker 2;
+#X obj 10 40 quacker 1;
 #X connect 0 0 1 0;
 #X restore 41 244 pd quacker;
-#N canvas 717 220 474 365 make 0;
+#N canvas 717 220 477 506 make 0;
 #X obj 14 11 r make;
 #X obj 79 63 max 1;
 #X obj 79 89 - 1;
 #X obj 79 115 s make-set;
 #X obj 14 61 + 1;
 #X obj 14 37 route float quacker;
-#X msg 22 200 \; pd-quacker clear \, obj 10 10 r quacker \, obj 10
-40 clone -s 1 quacker \$1 \, connect 0 0 1 0 \; make-set label make-\$1
-;
 #X obj 302 21 r make;
 #X obj 302 65 change;
 #X obj 302 42 route float;
 #X msg 301 109 \; gui-set 0 \; onoff-set 0 \; start-set 0 \;;
-#X obj 14 129 sel 1;
-#X msg 14 271 \; pd-quacker clear \, obj 10 10 r quacker \, obj 10
+#X obj 21 134 sel 1;
+#X msg 21 280 \; pd-quacker clear \, obj 10 10 r quacker \, obj 10
 40 quacker 1 \, connect 0 0 1 0 \; make-set label make-1;
 #X obj 301 87 pipe 100;
+#X msg 29 205 \; pd-quacker clear \, obj 10 10 r quacker \, obj 10
+40 clone -s 1 quacker \$1 \, connect 0 0 1 0 \; make-set label make-\$1
+\;;
+#N canvas 0 22 450 300 todo 0;
+#X obj 15 351 r quacker;
+#X msg 360 364 clear;
+#X msg 38 418 \; obj 10 10 _p 1;
+#X obj 250 359 list length;
+#X obj 182 411 t a a;
+#X obj 15 377 route outsig insig;
+#X obj 250 385 change;
+#X obj 250 411 t f b;
+#X obj 360 390 s pd-mixer;
+#X connect 0 0 5 0;
+#X connect 1 0 8 0;
+#X connect 3 0 6 0;
+#X connect 4 1 3 0;
+#X connect 5 0 4 0;
+#X connect 5 1 4 0;
+#X connect 6 0 7 0;
+#X restore 335 409 pd todo;
+#X obj 14 95 t b f;
+#X obj 14 454 s \$0-quaker;
+#X msg 14 426 menusave;
 #X connect 0 0 5 0;
 #X connect 1 0 2 0;
 #X connect 2 0 3 0;
-#X connect 4 0 11 0;
+#X connect 4 0 15 0;
 #X connect 5 0 4 0;
 #X connect 5 1 1 0;
-#X connect 7 0 9 0;
-#X connect 8 0 13 0;
-#X connect 9 0 8 0;
-#X connect 11 0 12 0;
-#X connect 11 1 6 0;
-#X connect 13 0 10 0;
+#X connect 6 0 8 0;
+#X connect 7 0 12 0;
+#X connect 8 0 7 0;
+#X connect 10 0 11 0;
+#X connect 10 1 13 0;
+#X connect 12 0 9 0;
+#X connect 15 0 17 0;
+#X connect 15 1 10 0;
+#X connect 17 0 16 0;
 #X restore 41 188 pd make;
-#X obj 45 55 hradio 15 1 0 8 make make-set make-2 0 -8 0 10 -262144
--1 -1 1;
+#X obj 45 55 hradio 15 1 0 8 make make-set make-1 0 -8 0 10 -262144
+-1 -1 0;
 #X obj 171 55 bng 15 250 50 0 controls controls-set controls 17 7 0
 10 -204800 -1 -1;
-#X msg 178 178 \; quack-start bang;
-#N canvas 531 373 450 300 mixer 0;
+#X msg 183 201 \; quack-start bang;
+#X obj 39 9 declare -path lib -path _lib;
+#N canvas 531 373 450 300 dac 0;
 #X obj 40 13 adc~ 1;
 #X obj 139 15 adc~ 2;
-#X obj 41 184 catch~ q-dac-1;
-#X obj 172 182 catch~ q-dac-2;
 #X obj 40 44 send~ q-adc-1;
 #X obj 139 43 send~ q-adc-2;
 #X obj 41 210 dac~ 1;
-#X obj 172 210 dac~ 2;
-#X connect 0 0 4 0;
-#X connect 1 0 5 0;
-#X connect 2 0 6 0;
-#X connect 3 0 7 0;
-#X restore 174 131 pd mixer;
+#X obj 139 210 dac~ 2;
+#X obj 41 182 catch~ dac-1;
+#X obj 139 182 catch~ dac-2;
+#X connect 0 0 2 0;
+#X connect 1 0 3 0;
+#X connect 6 0 4 0;
+#X connect 7 0 5 0;
+#X restore 172 151 pd dac;
+#N canvas 0 22 450 300 mixer 0;
+#X restore 172 127 pd mixer;
+#X obj 290 9 namecanvas \$0-quaker;
 #X coords 0 -1 1 1 200 80 2 40 40;
