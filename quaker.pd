@@ -246,4 +246,18 @@ vis 1 1 \;;
 #X obj 171 55 bng 15 250 50 0 controls controls-set controls 17 7 0
 10 -204800 -1 -1;
 #X msg 178 178 \; quack-start bang;
+#N canvas 531 373 450 300 mixer 0;
+#X obj 40 13 adc~ 1;
+#X obj 139 15 adc~ 2;
+#X obj 41 184 catch~ q-dac-1;
+#X obj 172 182 catch~ q-dac-2;
+#X obj 40 44 send~ q-adc-1;
+#X obj 139 43 send~ q-adc-2;
+#X obj 41 210 dac~ 1;
+#X obj 172 210 dac~ 2;
+#X connect 0 0 4 0;
+#X connect 1 0 5 0;
+#X connect 2 0 6 0;
+#X connect 3 0 7 0;
+#X restore 174 131 pd mixer;
 #X coords 0 -1 1 1 200 80 2 40 40;
